@@ -5,8 +5,8 @@ PORT = 5050
 FORMAT = 'UTF-8'
 DISCONNECT_MESSAGE = "!DISCONNECT"
 # Whatever IP address you found from running ifconfig in terminal.
-SERVER = "192.168.0.122"
-# SERVER = socket.gethostbyname(socket.gethostname())
+# SERVER = ""
+SERVER = socket.gethostbyname(socket.gethostname())
 
 ADDR = (SERVER, PORT)
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

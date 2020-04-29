@@ -14,7 +14,7 @@ First message length sent to server needs to always be of length 64 (bytes). Rep
 ### Local IP Address
 
 ```py
-SERVER = "192.168.0.122"
+SERVER = "192.10.0.100"
 SERVER = socket.gethostbyname(socket.gethostname())
 ```
 
