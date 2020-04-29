@@ -61,7 +61,7 @@ This function will handle the individual connection between the client and the s
 
 #### Protocol
 * Need a protocol for determining how many bytes we are receiving.
-* Also need a check to to make sure `msg` is not none. Because when we connect, a message is sent to the server telling us that we connected, but we are trying to immediately handle the message being sent with the length of the message that is about to come...which we haven't sent yet. So, we need to make sure the `msg` is a valid message we can convert into an integer other wise we will run into an issue.
+* Also need a check to to make sure `msg` is not `none`. Because when we connect, a message is sent to the server telling us that we connected, but we are trying to immediately handle the message being sent with the length of the message that is about to come...which we haven't sent yet. So, we need to make sure the `msg` is a valid message we can convert into an integer other wise we will run into an issue.
 * We do this by writing the below:
 
 ```py
@@ -122,17 +122,14 @@ def send(msg):
 * Then follow protocol where length of the first message we send is the length of the message that is about to come.
 * (`send_length = str(msg_length).encode(FORMAT)`)Length of first message that we send, representing the length of (`message`) ... which is the message we actually want to send.
 
-* Pad (`send_length += b' ' * (HEADER - len(send_length))`) We need to make sure it is 64 bytes long. We don't know it is going to be 64 and doesn't mean it is 64. So take msg_length, and subract from 64 to get the length, so we know how much to Pad it so that it is 64.
-* **2048** - just a large number to make sure we will be able to handle whatever message is sent back. Ideally we would use same protocol we used to send a message to the server, to send back to client. If we don't get this message that means something was wrong on the server side.
-
-
+* *Pad* (`send_length += b' ' * (HEADER - len(send_length))`) We need to make sure it is 64 bytes long. We don't know it is going to be 64 and doesn't mean it is 64. So take `msg_length`, and subtract from 64 to get the length, so we know how much to Pad it so that it is 64.
+* **2048** - just a large number to make sure we will be able to handle whatever message is sent back. Ideally we would use the same protocol we used to send a message to the server, to send back to client. If we don't get this message that means something was wrong on the server side.
 
 
 
 ## Sending Messages from Client to Client
 To send a message from client to client, we would need to store a list globally of messages that are sent from `Client 1` then send that list back to each client. We could make another protocol or thread to send to every single client, or check in a specific client itself which messages it is up to date with. If they don't have the message, you send it to them.
 
-![final](./images/Final.png)
 
 
 ## Sending Something Other Than A String
@@ -140,6 +137,8 @@ Sending something that isn't a string, like an object, can send messages that ar
 
 # Running This Script
 By starting the server, (run `server.py`) you should be able to open multiple command line tabs (clients) and run client.py, thus creating new threads. You should also be able to run the client scripts on a different computer (same local IP address) and be able to access the server and open a connection! Just print out a different message and send it through the socket.
+
+![final](./images/Final.png)
 
 ## Globally
 To make this work on your public IP address (*the internet*), go to google and search for your public IP address, then in your `SERVER` script, change the address to be your public IP. This however could be more problematic with firewalls, *also security*.
